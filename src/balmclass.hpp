@@ -4,7 +4,7 @@
 #include <ros/ros.h>
 #include <pcl/common/transforms.h>
 #include <unordered_map>
-#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
 #include "myso3/myso3.hpp"
 #include <thread>
 #include <mutex>

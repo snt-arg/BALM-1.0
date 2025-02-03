@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(balm)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE "Release")
-set(CMAKE_CXX_FLAGS "-std=c++11")
+set(CMAKE_CXX_FLAGS "-std=c++14")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -g")
 
 
@@ -17,6 +19,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(PCL REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(Eigen3 REQUIRED)
+
 
 catkin_package(
   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
@@ -36,7 +40,7 @@ catkin_package(
 )
 
 add_executable(livox_feature src/features/livox_feature.cpp)
-target_link_libraries(livox_feature ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+target_link_libraries(livox_feature ${catkin_LIBRARIES} ${PCL_LIBRARIES}) 
 
 add_executable(velodyne_feature src/features/velodyne_feature.cpp)
 target_link_libraries(velodyne_feature ${catkin_LIBRARIES} ${PCL_LIBRARIES})
@@ -49,4 +53,3 @@ target_link_libraries(loamscan2map ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV
 
 add_executable(balm_only_back src/balm_only_back.cpp src/myso3/myso3.hpp src/myso3/myso3.cpp)
 target_link_libraries(balm_only_back ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
-

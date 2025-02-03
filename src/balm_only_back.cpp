@@ -323,7 +323,20 @@ int main(int argc, char **argv)
         parray.poses[i].position.y = t_poses[i].y();
         parray.poses[i].position.z = t_poses[i].z();
       }
+      
       pub_pose.publish(parray);
+      nav_msgs::Odometry odom_msg;
+      odom_msg.header.stamp = ct;
+      odom_msg.header.frame_id = "odom";
+      odom_msg.child_frame_id = "camera";
+      odom_msg.pose.pose.position.x = t_poses.back().x();
+      odom_msg.pose.pose.position.y = t_poses.back().y();
+      odom_msg.pose.pose.position.z = t_poses.back().z();
+      odom_msg.pose.pose.orientation.x = q_poses.back().x();
+      odom_msg.pose.pose.orientation.y = q_poses.back().y();
+      odom_msg.pose.pose.orientation.z = q_poses.back().z();
+      odom_msg.pose.pose.orientation.w = q_poses.back().w();
+      pub_odom.publish(odom_msg);
 
       for(auto iter=surf_map.begin(); iter!=surf_map.end(); ++iter)
       {

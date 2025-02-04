@@ -157,23 +157,25 @@ int main(int argc, char **argv)
     uint64_t time_full = full_buf.front()->header.stamp.toNSec();
     uint64_t time_odom = odom_buf.front()->header.stamp.toNSec();
 
-    if(time_odom != time_corn)
+    double time_threshold = 1e8;
+
+    if (std::fabs(time_odom - time_corn) > time_threshold)
     {
-      time_odom < time_corn ? odom_buf.pop() : corn_buf.pop();
-      mBuf.unlock();
-      continue;
+        time_odom < time_corn ? odom_buf.pop() : corn_buf.pop();
+        mBuf.unlock();
+        continue;
     }
-    if(time_odom != time_surf)
+    if (std::fabs(time_odom - time_surf) > time_threshold)
     {
-      time_odom < time_surf ? odom_buf.pop() : surf_buf.pop();
-      mBuf.unlock();
-      continue;
+        time_odom < time_surf ? odom_buf.pop() : surf_buf.pop();
+        mBuf.unlock();
+        continue;
     }
-    if(time_odom != time_full)
+    if (std::fabs(time_odom - time_full) > time_threshold)
     {
-      time_odom < time_full ? odom_buf.pop() : full_buf.pop();
-      mBuf.unlock();
-      continue;
+        time_odom < time_full ? odom_buf.pop() : full_buf.pop();
+        mBuf.unlock();
+        continue;
     }
 
     ros::Time ct(full_buf.front()->header.stamp);
